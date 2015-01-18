@@ -5,5 +5,24 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/vframe.jar"/>
 	<classpathentry kind="lib" path="lib/vframestartup.jar"/>
+	<classpathentry kind="lib" path="lib/appache-ftp.jar"/>
+	<classpathentry kind="lib" path="lib/c3p0.jar"/>
+	<classpathentry kind="lib" path="lib/commons-cli-1.2.jar"/>
+	<classpathentry kind="lib" path="lib/commons-io-2.4.jar"/>
+	<classpathentry kind="lib" path="lib/db2jcc_license_cu.jar"/>
+	<classpathentry kind="lib" path="lib/db2jcc.jar"/>
+	<classpathentry kind="lib" path="lib/easymock.jar"/>
+	<classpathentry kind="lib" path="lib/jakarta.jar"/>
+	<classpathentry kind="lib" path="lib/javassist.jar"/>
+	<classpathentry kind="lib" path="lib/jdom.jar"/>
+	<classpathentry kind="lib" path="lib/jmxtools.jar"/>
+	<classpathentry kind="lib" path="lib/jt400.jar"/>
+	<classpathentry kind="lib" path="lib/junit.jar"/>
+	<classpathentry kind="lib" path="lib/mysql-connector-java.jar"/>
+	<classpathentry kind="lib" path="lib/netty.jar"/>
+	<classpathentry kind="lib" path="lib/ojdbc14.jar"/>
+	<classpathentry kind="lib" path="lib/servlet.jar"/>
+	<classpathentry kind="lib" path="lib/sqlj.jar"/>
+	<classpathentry kind="lib" path="lib/transaction.jar"/>
 	<classpathentry kind="output" path="classes"/>
 </classpath>
