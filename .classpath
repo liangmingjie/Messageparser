@@ -24,5 +24,6 @@
 	<classpathentry kind="lib" path="lib/servlet.jar"/>
 	<classpathentry kind="lib" path="lib/sqlj.jar"/>
 	<classpathentry kind="lib" path="lib/transaction.jar"/>
+	<classpathentry kind="lib" path="lib/vrouter.jar"/>
 	<classpathentry kind="output" path="classes"/>
 </classpath>
