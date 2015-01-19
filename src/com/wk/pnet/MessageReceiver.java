@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.wk.actor.Actor;
 import com.wk.actor.Actors;
+import com.wk.conv.PacketChannelBuffer;
 import com.wk.conv.config.FieldConfig;
 import com.wk.conv.config.StructConfig;
 import com.wk.conv.converter.DefaultConverter;
@@ -50,47 +51,29 @@ public class MessageReceiver {
 	
 }
 class ReqActor<T extends ChannelBufferMsg> extends Actor<Request<T>> {
-//	static StructConfig config ;
-//	static StructConfig response;
-//	static StructConfig request;
-//	@Sync
-	private static final DefaultConverter converter;
-	static {
-		FieldMode str_ebcd = Modes.getFieldMode("strEBCD");
-		FieldMode standard = Modes.getFieldMode("standard");
-		FieldMode pack = Modes.getFieldMode("pack");
-		Map<FieldType, FieldMode> mode_map = new HashMap<FieldType, FieldMode>();
-		mode_map.put(FieldType.FIELD_BYTE, str_ebcd);
-		mode_map.put(FieldType.FIELD_STRING, str_ebcd);
-		mode_map.put(FieldType.FIELD_IMAGE, standard);
-		mode_map.put(FieldType.FIELD_SHORT, pack);
-		mode_map.put(FieldType.FIELD_INT, pack);
-		mode_map.put(FieldType.FIELD_LONG, pack);
-		mode_map.put(FieldType.FIELD_FLOAT, pack);
-		mode_map.put(FieldType.FIELD_DOUBLE, pack);
-		StructConfig response = new StructConfig(new DefaultPackageMode("inbank", mode_map), true);
-		
-		response.putChild(new FieldConfig("I1SBNO", FieldType.FIELD_STRING, 10, str_ebcd));
-		response.putChild(new FieldConfig("I1WSNO", FieldType.FIELD_STRING, 0, str_ebcd));
-		response.putChild(new FieldConfig("I1AUUS", FieldType.FIELD_STRING, 0, str_ebcd));
-		response.putChild(new FieldConfig("I1TRCD", FieldType.FIELD_STRING, 4, str_ebcd));
-		response.putChild(new FieldConfig("I1NGAM", FieldType.FIELD_STRING, 0, str_ebcd));
-		response.putChild(new FieldConfig("I1AUPS", FieldType.FIELD_STRING, 0, str_ebcd));
-		response.putChild(new FieldConfig("I1ECRS", FieldType.FIELD_STRING, 0, str_ebcd));
-		response.putChild(new FieldConfig("I1ORTS", FieldType.FIELD_STRING, 10, str_ebcd));
-		response.putChild(new FieldConfig("I1YSQM", FieldType.FIELD_STRING, 0, str_ebcd));
-		response.putChild(new FieldConfig("I1TRAM", FieldType.FIELD_STRING, 0, str_ebcd));
-		response.putChild(new FieldConfig("I1CZRQ", FieldType.FIELD_STRING, 8, str_ebcd));
-		response.putChild(new FieldConfig("I1USID", FieldType.FIELD_STRING, 6, str_ebcd));
-		converter = new DefaultConverter(response);
-	}
+	
 	@Override
 	protected void act(Request<T> request) {
+		VRouterStandardPackageMode vrouter = new VRouterStandardPackageMode("vrouter", false);
+		FieldMode str_ebcd = Modes.getFieldMode("strEBCD");
+		StructConfig response = new StructConfig(vrouter, false);
+//		response.putChild(new FieldConfig("I1SBNO", FieldType.FIELD_STRING, 10, str_ebcd));
+//		response.putChild(new FieldConfig("I1WSNO", FieldType.FIELD_STRING, 0, str_ebcd));
+//		response.putChild(new FieldConfig("I1AUUS", FieldType.FIELD_STRING, 0, str_ebcd));
+//		response.putChild(new FieldConfig("I1TRCD", FieldType.FIELD_STRING, 4, str_ebcd));
+//		response.putChild(new FieldConfig("I1NGAM", FieldType.FIELD_STRING, 0, str_ebcd));
+//		response.putChild(new FieldConfig("I1AUPS", FieldType.FIELD_STRING, 0, str_ebcd));
+//		response.putChild(new FieldConfig("I1ECRS", FieldType.FIELD_STRING, 0, str_ebcd));
+//		response.putChild(new FieldConfig("I1ORTS", FieldType.FIELD_STRING, 10, str_ebcd));
+//		response.putChild(new FieldConfig("I1YSQM", FieldType.FIELD_STRING, 0, str_ebcd));
+//		response.putChild(new FieldConfig("I1TRAM", FieldType.FIELD_STRING, 0, str_ebcd));
+//		response.putChild(new FieldConfig("I1CZRQ", FieldType.FIELD_STRING, 8, str_ebcd));
+//		response.putChild(new FieldConfig("I1USID", FieldType.FIELD_STRING, 6, str_ebcd));
 		ChannelBuffer buffer = request.getRequestMsg().toChannelBuffer();
 		ServiceData data = new ServiceData();
 		System.out.println(buffer.toHexString());
 //		VRouterStandardPackageMode vmode = new VRouterStandardPackageMode("test");
-		data = converter.fromChannelBuffer(buffer);
+		data = vrouter.unpack(new PacketChannelBuffer(buffer), response, data, buffer.readableBytes());
 //		vmode.unpack(new PacketChannelBuffer(buffer), config, data, buffer.readableBytes());
 		System.out.println(data);
 		request.doResponse((T)new ChannelBufferMsg(buffer));
